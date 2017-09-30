@@ -3,10 +3,10 @@ import {Options} from "./options.interface";
 
 export class Logger {
     private options: Options;
-    private klass: string | object;
+    private name: string;
 
-    constructor(klass: string | object, options: Options) {
-        this.klass = klass;
+    constructor(name: string, options: Options) {
+        this.name = name;
         this.options = {
             timestamp: false,
             ...options
@@ -33,12 +33,9 @@ export class Logger {
         return this._log(Level.ERROR, args);
     }
 
-    private klassToString() {
-        if (typeof this.klass == "object") {
-            return this.klass.constructor.name;
-        }
-        else if (typeof this.klass == "string") {
-            return this.klass;
+    private nameToString() {
+        if (typeof this.name == "string") {
+            return this.name;
         }
         else {
             return "";
@@ -77,7 +74,7 @@ export class Logger {
 
             (typeof this.options.all == "function") && this.options.all(level, args);
 
-            return console[level].bind(window.console, ...[`${this.options.timestamp ? new Date().toJSON() : ""}`, `[${this.klassToString()}]`, ...args]);
+            return console[level].bind(window.console, ...[`${this.options.timestamp ? new Date().toJSON() : ""}`, `[${this.nameToString()}]`, ...args]);
         }
         catch (err) {
             console.error(err);

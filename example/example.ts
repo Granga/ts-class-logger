@@ -1,7 +1,7 @@
 import {Level, Logger as TSClassLogger, Options} from "../src";
 
 export class Logger extends TSClassLogger {
-    constructor(klass: string | object) {
+    constructor(name: string) {
         let options: Options = {
             level: Level.DEBUG,
             timestamp: false,
@@ -15,16 +15,13 @@ export class Logger extends TSClassLogger {
             all: undefined
         };
 
-        super(klass, options);
+        super(name, options);
     }
 }
 
 export class ExampleClass {
     //recommended to send the class name as string:
     private logger = new Logger("ExampleClass");
-
-    //minification will shorten your class name
-    //private logger = new Logger(this);
 
     makeAPoint() {
         let point = {x: 0, y: 1};

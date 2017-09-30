@@ -33,9 +33,6 @@ class ExampleClass {
     //recommended to send the class name as string:
     private logger = new Logger("ExampleClass");
 
-    //minification will shorten your class name
-    //private logger = new Logger(this);
-
     makeAPoint() {
         let point = {x: 0, y: 1};
 
