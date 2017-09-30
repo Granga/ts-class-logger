@@ -1,6 +1,6 @@
 {
   "name": "ts-class-logger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Simple logger for typescript class.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

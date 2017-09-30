@@ -10,34 +10,29 @@ Simple logger for typescript classes.
 ```typescript
 import {Level, Logger as TSClassLogger, Options} from "ts-class-logger";
 
-class Logger extends TSClassLogger {
-    constructor(klass: string | object) {
-        let options: Options = {
-            level: Level.DEBUG,
-            timestamp: false,
-            debug: (args: any[]) => {
-                //your custom logic, for example send log to server
-            },
-            log: undefined,
-            info: undefined,
-            error: undefined,
-            warn: undefined,
-            all: undefined
-        };
+let options: Options = {
+    level: Level.DEBUG,
+    timestamp: false,
+    debug: (args: any[]) => {
+        //your custom logic, for example send log to server
+    },
+    log: undefined,
+    info: undefined,
+    error: undefined,
+    warn: undefined,
+    all: undefined
+};
 
-        super(klass, options);
-    }
-}
+export const Logger = (name: string) => new TSClassLogger(name, options);
 
-class ExampleClass {
+export class ExampleClass {
     //recommended to send the class name as string:
-    private logger = new Logger("ExampleClass");
+    private logger = Logger("ExampleClass");
 
     makeAPoint() {
         let point = {x: 0, y: 1};
 
-        //notice another pair of brackets, 
-        //but console will bring you to this line
+        //notice another pair of brackets, but console will bring you to this line
         this.logger.debug("Hey, this is my point:", point)();
     }
 }

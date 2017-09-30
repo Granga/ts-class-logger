@@ -1,27 +1,23 @@
 import {Level, Logger as TSClassLogger, Options} from "../src";
 
-export class Logger extends TSClassLogger {
-    constructor(name: string) {
-        let options: Options = {
-            level: Level.DEBUG,
-            timestamp: false,
-            debug: (args: any[]) => {
-                //your custom logic, for example send log to server
-            },
-            log: undefined,
-            info: undefined,
-            error: undefined,
-            warn: undefined,
-            all: undefined
-        };
+let options: Options = {
+    level: Level.DEBUG,
+    timestamp: false,
+    debug: (args: any[]) => {
+        //your custom logic, for example send log to server
+    },
+    log: undefined,
+    info: undefined,
+    error: undefined,
+    warn: undefined,
+    all: undefined
+};
 
-        super(name, options);
-    }
-}
+export const Logger = (name: string) => new TSClassLogger(name, options);
 
 export class ExampleClass {
     //recommended to send the class name as string:
-    private logger = new Logger("ExampleClass");
+    private logger = Logger("ExampleClass");
 
     makeAPoint() {
         let point = {x: 0, y: 1};

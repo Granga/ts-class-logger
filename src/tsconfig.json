@@ -3,7 +3,7 @@
         "outDir": "../dist",
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "es5",
+        "target": "es2015",
         "preserveConstEnums": true,
         "declaration": true,
         "sourceMap": false
