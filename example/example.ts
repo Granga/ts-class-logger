@@ -1,16 +1,6 @@
-# TSClassLogger
-Simple logger for typescript classes.
+import {Level, Logger as TSClassLogger, Options} from "../src";
 
-## Installation:
-`npm install ts-class-logger --save`  
-
-`yarn add ts-class-logger`
-
-## Usage:
-```typescript
-import {Level, Logger as TSClassLogger, Options} from "ts-class-logger";
-
-class Logger extends TSClassLogger {
+export class Logger extends TSClassLogger {
     constructor(klass: string | object) {
         let options: Options = {
             level: Level.DEBUG,
@@ -29,7 +19,7 @@ class Logger extends TSClassLogger {
     }
 }
 
-class ExampleClass {
+export class ExampleClass {
     //recommended to send the class name as string:
     private logger = new Logger("ExampleClass");
 
@@ -39,9 +29,7 @@ class ExampleClass {
     makeAPoint() {
         let point = {x: 0, y: 1};
 
-        //notice another pair of brackets, 
-        //but console will bring you to this line
+        //notice another pair of brackets, but console will bring you to this line
         this.logger.debug("Hey, this is my point:", point)();
     }
 }
-```
