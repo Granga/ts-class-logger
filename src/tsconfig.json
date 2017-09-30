@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outDir": "../dist",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es6",
+        "preserveConstEnums": true,
+        "declaration": true,
+        "sourceMap": false
+    },
+    "compileOnSave": false
+}

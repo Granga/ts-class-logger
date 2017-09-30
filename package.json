@@ -1,0 +1,31 @@
+{
+  "name": "ts-class-logger",
+  "version": "1.0.0",
+  "description": "Simple logger for typescript class.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^2.5.3"
+  },
+  "browserDependencies": {},
+  "scripts": {
+    "test": "node dist/test/test.js",
+    "build": "cd src && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Granga/ts-class-logger.git"
+  },
+  "keywords": [
+    "ts",
+    "logger",
+    "class"
+  ],
+  "author": "Risto Petroski <risto.petroski@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Granga/ts-class-logger/issues"
+  },
+  "homepage": "https://github.com/Granga/ts-class-logger#readme"
+}
