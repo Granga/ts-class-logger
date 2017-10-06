@@ -8,7 +8,7 @@ export class Logger {
     constructor(name: string, options: Options) {
         this.name = name;
         this.options = {
-            timestamp: false,
+            forceConsoleLog: false,
             ...options
         };
     }
@@ -44,37 +44,38 @@ export class Logger {
 
     private _log(level: Level, args: any[]): Function {
         try {
-            if (this.options.level == Level.OFF) {
+            args = [`[${this.nameToString()}]:`, ...args];
+
+            if (this.rank(level) >= this.rank(this.options.level)) {
+                switch (level) {
+                    case Level.ERROR:
+                        (typeof this.options.error == "function") && this.options.error(args);
+                        break;
+                    case Level.WARN:
+                        (typeof this.options.warn == "function") && this.options.warn(args);
+                        break;
+                    case Level.LOG:
+                        (typeof this.options.log == "function") && this.options.log(args);
+                        break;
+                    case Level.INFO:
+                        (typeof this.options.info == "function") && this.options.info(args);
+                        break;
+                    case Level.DEBUG:
+                        (typeof this.options.debug == "function") && this.options.debug(args);
+                        break;
+                }
+
+                (typeof this.options.all == "function") && this.options.all(level, args);
+
+                return console[level].bind(window.console, ...args);
+            }
+            else if (this.options.forceConsoleLog) {
+                return console[level].bind(window.console, ...args);
+            }
+            else {
                 return () => {
                 };
             }
-
-            if (this.rank(level) < this.rank(this.options.level)) {
-                return () => {
-                };
-            }
-
-            switch (level) {
-                case Level.ERROR:
-                    (typeof this.options.error == "function") && this.options.error(args);
-                    break;
-                case Level.WARN:
-                    (typeof this.options.warn == "function") && this.options.warn(args);
-                    break;
-                case Level.LOG:
-                    (typeof this.options.log == "function") && this.options.log(args);
-                    break;
-                case Level.INFO:
-                    (typeof this.options.info == "function") && this.options.info(args);
-                    break;
-                case Level.DEBUG:
-                    (typeof this.options.debug == "function") && this.options.debug(args);
-                    break;
-            }
-
-            (typeof this.options.all == "function") && this.options.all(level, args);
-
-            return console[level].bind(window.console, ...[`${this.options.timestamp ? new Date().toJSON() : ""}`, `[${this.nameToString()}]`, ...args]);
         }
         catch (err) {
             console.error(err);

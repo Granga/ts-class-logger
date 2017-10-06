@@ -12,7 +12,7 @@ var level_enum_1 = require("./level.enum");
 var Logger = /** @class */ (function () {
     function Logger(name, options) {
         this.name = name;
-        this.options = __assign({ timestamp: false }, options);
+        this.options = __assign({ forceConsoleLog: false }, options);
     }
     Logger.prototype.debug = function () {
         var args = [];
@@ -59,38 +59,40 @@ var Logger = /** @class */ (function () {
     };
     Logger.prototype._log = function (level, args) {
         try {
-            if (this.options.level == level_enum_1.Level.OFF) {
+            args = ["[" + this.nameToString() + "]:"].concat(args);
+            if (this.rank(level) >= this.rank(this.options.level)) {
+                switch (level) {
+                    case level_enum_1.Level.ERROR:
+                        (typeof this.options.error == "function") && this.options.error(args);
+                        break;
+                    case level_enum_1.Level.WARN:
+                        (typeof this.options.warn == "function") && this.options.warn(args);
+                        break;
+                    case level_enum_1.Level.LOG:
+                        (typeof this.options.log == "function") && this.options.log(args);
+                        break;
+                    case level_enum_1.Level.INFO:
+                        (typeof this.options.info == "function") && this.options.info(args);
+                        break;
+                    case level_enum_1.Level.DEBUG:
+                        (typeof this.options.debug == "function") && this.options.debug(args);
+                        break;
+                }
+                (typeof this.options.all == "function") && this.options.all(level, args);
+                return (_a = console[level]).bind.apply(_a, [window.console].concat(args));
+            }
+            else if (this.options.forceConsoleLog) {
+                return (_b = console[level]).bind.apply(_b, [window.console].concat(args));
+            }
+            else {
                 return function () {
                 };
             }
-            if (this.rank(level) < this.rank(this.options.level)) {
-                return function () {
-                };
-            }
-            switch (level) {
-                case level_enum_1.Level.ERROR:
-                    (typeof this.options.error == "function") && this.options.error(args);
-                    break;
-                case level_enum_1.Level.WARN:
-                    (typeof this.options.warn == "function") && this.options.warn(args);
-                    break;
-                case level_enum_1.Level.LOG:
-                    (typeof this.options.log == "function") && this.options.log(args);
-                    break;
-                case level_enum_1.Level.INFO:
-                    (typeof this.options.info == "function") && this.options.info(args);
-                    break;
-                case level_enum_1.Level.DEBUG:
-                    (typeof this.options.debug == "function") && this.options.debug(args);
-                    break;
-            }
-            (typeof this.options.all == "function") && this.options.all(level, args);
-            return (_a = console[level]).bind.apply(_a, [window.console].concat(["" + (this.options.timestamp ? new Date().toJSON() : ""), "[" + this.nameToString() + "]"].concat(args)));
         }
         catch (err) {
             console.error(err);
         }
-        var _a;
+        var _a, _b;
     };
     Logger.prototype.rank = function (level) {
         switch (level) {
