@@ -79,10 +79,10 @@ var Logger = /** @class */ (function () {
                         break;
                 }
                 (typeof this.options.all == "function") && this.options.all(level, args);
-                return (_a = console[level]).bind.apply(_a, [window.console].concat(args));
+                return (_a = console[level]).bind.apply(_a, [console].concat(args));
             }
             else if (this.options.forceConsoleLog) {
-                return (_b = console[level]).bind.apply(_b, [window.console].concat(args));
+                return (_b = console[level]).bind.apply(_b, [console].concat(args));
             }
             else {
                 return function () {

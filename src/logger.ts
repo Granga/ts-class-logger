@@ -67,10 +67,10 @@ export class Logger {
 
                 (typeof this.options.all == "function") && this.options.all(level, args);
 
-                return console[level].bind(window.console, ...args);
+                return console[level].bind(console, ...args);
             }
             else if (this.options.forceConsoleLog) {
-                return console[level].bind(window.console, ...args);
+                return console[level].bind(console, ...args);
             }
             else {
                 return () => {
