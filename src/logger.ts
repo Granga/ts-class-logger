@@ -42,37 +42,37 @@ export class Logger {
         }
     }
 
-    private _log(level: Level, args: any[]): Function {
+    private _log(level: Level, params: any[]): Function {
         try {
             if (this.nameToString()) {
-                args = [`[${this.nameToString()}]:`, ...args];
+                params.unshift(`[${this.nameToString()}]:`);
             }
 
             if (this.rank(level) >= this.rank(this.options.level)) {
                 switch (level) {
                     case Level.ERROR:
-                        (typeof this.options.error == "function") && this.options.error(args);
+                        (typeof this.options.error == "function") && this.options.error(params);
                         break;
                     case Level.WARN:
-                        (typeof this.options.warn == "function") && this.options.warn(args);
+                        (typeof this.options.warn == "function") && this.options.warn(params);
                         break;
                     case Level.LOG:
-                        (typeof this.options.log == "function") && this.options.log(args);
+                        (typeof this.options.log == "function") && this.options.log(params);
                         break;
                     case Level.INFO:
-                        (typeof this.options.info == "function") && this.options.info(args);
+                        (typeof this.options.info == "function") && this.options.info(params);
                         break;
                     case Level.DEBUG:
-                        (typeof this.options.debug == "function") && this.options.debug(args);
+                        (typeof this.options.debug == "function") && this.options.debug(params);
                         break;
                 }
 
-                (typeof this.options.all == "function") && this.options.all(level, args);
+                (typeof this.options.all == "function") && this.options.all(level, params);
 
-                return console[level].bind(console, ...args);
+                return console[level].bind(console, ...params);
             }
             else if (this.options.forceConsoleLog) {
-                return console[level].bind(console, ...args);
+                return console[level].bind(console, ...params);
             }
             else {
                 return () => {

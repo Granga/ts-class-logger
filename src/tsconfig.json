@@ -1,12 +1,12 @@
 {
-    "compilerOptions": {
-        "outDir": "../dist",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "target": "es5",
-        "preserveConstEnums": true,
-        "declaration": true,
-        "sourceMap": false
-    },
-    "compileOnSave": false
+  "compilerOptions": {
+    "outDir": "../dist",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "preserveConstEnums": true,
+    "declaration": true,
+    "sourceMap": false
+  },
+  "compileOnSave": false
 }

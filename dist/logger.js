@@ -1,13 +1,24 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Logger = void 0;
 var level_enum_1 = require("./level.enum");
 var Logger = /** @class */ (function () {
     function Logger(name, options) {
@@ -57,34 +68,35 @@ var Logger = /** @class */ (function () {
             return "";
         }
     };
-    Logger.prototype._log = function (level, args) {
+    Logger.prototype._log = function (level, params) {
+        var _a, _b;
         try {
             if (this.nameToString()) {
-                args = ["[" + this.nameToString() + "]:"].concat(args);
+                params.unshift("[" + this.nameToString() + "]:");
             }
             if (this.rank(level) >= this.rank(this.options.level)) {
                 switch (level) {
                     case level_enum_1.Level.ERROR:
-                        (typeof this.options.error == "function") && this.options.error(args);
+                        (typeof this.options.error == "function") && this.options.error(params);
                         break;
                     case level_enum_1.Level.WARN:
-                        (typeof this.options.warn == "function") && this.options.warn(args);
+                        (typeof this.options.warn == "function") && this.options.warn(params);
                         break;
                     case level_enum_1.Level.LOG:
-                        (typeof this.options.log == "function") && this.options.log(args);
+                        (typeof this.options.log == "function") && this.options.log(params);
                         break;
                     case level_enum_1.Level.INFO:
-                        (typeof this.options.info == "function") && this.options.info(args);
+                        (typeof this.options.info == "function") && this.options.info(params);
                         break;
                     case level_enum_1.Level.DEBUG:
-                        (typeof this.options.debug == "function") && this.options.debug(args);
+                        (typeof this.options.debug == "function") && this.options.debug(params);
                         break;
                 }
-                (typeof this.options.all == "function") && this.options.all(level, args);
-                return (_a = console[level]).bind.apply(_a, [console].concat(args));
+                (typeof this.options.all == "function") && this.options.all(level, params);
+                return (_a = console[level]).bind.apply(_a, __spreadArrays([console], params));
             }
             else if (this.options.forceConsoleLog) {
-                return (_b = console[level]).bind.apply(_b, [console].concat(args));
+                return (_b = console[level]).bind.apply(_b, __spreadArrays([console], params));
             }
             else {
                 return function () {
@@ -94,7 +106,6 @@ var Logger = /** @class */ (function () {
         catch (err) {
             console.error(err);
         }
-        var _a, _b;
     };
     Logger.prototype.rank = function (level) {
         switch (level) {

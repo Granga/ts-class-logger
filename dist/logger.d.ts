@@ -8,7 +8,7 @@ export declare class Logger {
     info(...args: any[]): Function;
     warn(...args: any[]): Function;
     error(...args: any[]): Function;
-    private nameToString();
-    private _log(level, args);
-    private rank(level);
+    private nameToString;
+    private _log;
+    private rank;
 }
