@@ -59,7 +59,9 @@ var Logger = /** @class */ (function () {
     };
     Logger.prototype._log = function (level, args) {
         try {
-            args = ["[" + this.nameToString() + "]:"].concat(args);
+            if (this.nameToString()) {
+                args = ["[" + this.nameToString() + "]:"].concat(args);
+            }
             if (this.rank(level) >= this.rank(this.options.level)) {
                 switch (level) {
                     case level_enum_1.Level.ERROR:

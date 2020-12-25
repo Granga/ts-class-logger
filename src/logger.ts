@@ -1,5 +1,5 @@
-import {Level} from "./level.enum";
-import {Options} from "./options.interface";
+import { Level } from "./level.enum";
+import { Options } from "./options.interface";
 
 export class Logger {
     private options: Options;
@@ -44,7 +44,9 @@ export class Logger {
 
     private _log(level: Level, args: any[]): Function {
         try {
-            args = [`[${this.nameToString()}]:`, ...args];
+            if (this.nameToString()) {
+                args = [`[${this.nameToString()}]:`, ...args];
+            }
 
             if (this.rank(level) >= this.rank(this.options.level)) {
                 switch (level) {
